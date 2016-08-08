@@ -89,18 +89,17 @@ class CaptureModel {
         //6plus真机实测最高支持240FPS的视频录制
         if  let (maxFormat,maxFrameRateRange) = device.maxFPSFormat() {
             if ((try? device.lockForConfiguration()) != nil) {
+                //处理帧时长数据,比如帧率为60FPS,则duration为1/60秒
                 let minFrameDuration = maxFrameRateRange.minFrameDuration
                 device.activeFormat = maxFormat
                 device.activeVideoMaxFrameDuration = minFrameDuration
                 device.activeVideoMinFrameDuration = minFrameDuration
                 device.unlockForConfiguration()
             }
-        }        
+        }
     }
     
 }
-
-
 
 //AVCaptureDevice类扩展
 extension AVCaptureDevice{
