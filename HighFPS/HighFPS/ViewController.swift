@@ -8,18 +8,21 @@
 
 import UIKit
 import AVFoundation
-protocol VideoViewDelegate {
+protocol VideoViewDelegate: NSObjectProtocol{
     func setupSession(session:AVCaptureSession)
 }
 
-class ViewController: UIViewController {
+class VideoVC: UIViewController {
     
     var videoLayer: AVCaptureVideoPreviewLayer!
-    
+    var presenter: VideoPresenterDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.setupVideoLayer()
+        self.presenter = VideoPresenter(view: self)
+        self.presenter.startVideoCapture()
+        self.presenter.startHighFPSCapture()
     }
 
     func setupVideoLayer() {
@@ -27,10 +30,9 @@ class ViewController: UIViewController {
         self.videoLayer.frame = self.view.bounds;
         self.view.layer.addSublayer(self.videoLayer)
     }
-
 }
 
-extension ViewController:VideoViewDelegate{
+extension VideoVC:VideoViewDelegate{
     func setupSession(session: AVCaptureSession) {
         self.videoLayer.session = session
     }
